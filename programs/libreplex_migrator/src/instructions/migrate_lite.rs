@@ -7,18 +7,7 @@ use libreplex_metadata::program::LibreplexMetadata as MetadataProgram;
 use libreplex_metadata::cpi::accounts::CreateMetadata;
 use mpl_token_metadata::state::{Metadata as LegacyMetadata, TokenMetadataAccount};
 
-#[repr(C)]
-#[derive(Clone, AnchorDeserialize, AnchorSerialize)]
-pub struct MigrateLiteInput {
-    // name, symbol and creators are picked up 
-    // from legacy metadata. however the remaining fields
-    // must be specified if they are required on chain
-    attributes: Vec<u8>, // group to add the migrated metadata to
-
-}
-
 #[derive(Accounts)]
-#[instruction(ordinal_input: MigrateLiteInput)]
 pub struct MigrateLite<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
@@ -46,8 +35,7 @@ pub struct MigrateLite<'info> {
 }
 
 pub fn handler(
-    ctx: Context<MigrateLite>,
-    inscription_input: MigrateLiteInput,
+    ctx: Context<MigrateLite>
 ) -> Result<()> {
     
     let libreplex_metadata = &ctx.accounts.libreplex_metadata_program;

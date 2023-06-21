@@ -22,10 +22,9 @@ pub mod libreplex_migrator {
 
     use super::*;
     pub fn canonical(
-        ctx: Context<MigrateLite>,
-        render_input: MigrateLiteInput
+        ctx: Context<MigrateLite>
     ) -> Result<()> {
-        instructions::migrate_lite::handler(ctx, render_input)
+        instructions::migrate_lite::handler(ctx)
     }
 
 
