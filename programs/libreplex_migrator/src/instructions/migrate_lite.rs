@@ -27,7 +27,7 @@ pub struct MigrateLite<'info> {
     pub root: Signer<'info>,
 
     #[account(mut)]
-    pub group: Account<'info, Group>,
+    pub group: Option<Account<'info, Group>>,
 
     #[account()]
     pub mint: Account<'info, Mint>,
@@ -88,20 +88,27 @@ pub fn handler(
         }
     )?;
 
-    libreplex_metadata::cpi::group_add(
-        CpiContext::new(
-            libreplex_metadata.to_account_info(),
-            GroupAdd {
-                metadata: libreplex_metadata.to_account_info(),
-                metadata_authority: payer.to_account_info(),
-                group_authority: payer.to_account_info(),
-                delegated_metadata_specific_permissions: None,
-                delegated_group_wide_permissions: None,
-                group: group.to_account_info(),
-                system_program: system_program.to_account_info()
-            }
-        )
-    )?;
+    match group {
+        Some(x) => {
+            libreplex_metadata::cpi::group_add(
+                CpiContext::new(
+                    libreplex_metadata.to_account_info(),
+                    GroupAdd {
+                        metadata: libreplex_metadata.to_account_info(),
+                        metadata_authority: payer.to_account_info(),
+                        group_authority: payer.to_account_info(),
+                        delegated_metadata_specific_permissions: None,
+                        delegated_group_wide_permissions: None,
+                        group: x.to_account_info(),
+                        system_program: system_program.to_account_info()
+                    }
+                )
+            )?;
+        }, None =>{
+            // no group supplied. Do not add to group. Doh.
+        }
+    }
+    
 
     Ok(())
 }
