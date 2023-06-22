@@ -1,0 +1,19 @@
+[package]
+name = "migraboss"
+version = "0.1.0"
+edition = "2018"
+
+[[bin]]
+name = "migraboss"
+path = "src/main.rs"
+
+[dependencies]
+anchor-lang = "0.28.0"
+anchor-client = "0.28.0"
+anyhow = "1.0"
+bincode = "1.3.3"
+clap = { version = "3.0.5", features = ["derive"] }
+libraplex_migrator = { path = "../libraplex_migrator" }
+rand = "0.8.0"
+chrono = "0.4.19"
+shellexpand = "2.1.0"

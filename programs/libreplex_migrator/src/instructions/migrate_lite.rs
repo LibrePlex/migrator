@@ -56,11 +56,16 @@ pub fn handler(
         return Err(ErrorCode::ConstraintMintMintAuthority.into());
     }
 
+    /*
+     create libre metadata, replicating what we can from legacy: name, symbol etc
+     for asset, we use Asset::Json as this provides backwards compatible data 
+     structure. We do not have to worry about the other asset types here as
+     it's completely possible to switch to, say, inscriptions later if we want to.
+    */
     libreplex_metadata::cpi::create_metadata(
         CpiContext::new(
             libreplex_metadata.to_account_info(),
             CreateMetadata {
-                // raffle is the owner of the pod
                 metadata: legacy_metadata.to_account_info(),
                 mint: mint.to_account_info(),
                 system_program: system_program.to_account_info(),
