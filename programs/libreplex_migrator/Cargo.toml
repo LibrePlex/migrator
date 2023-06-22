@@ -18,5 +18,14 @@ default = []
 [dependencies]
 anchor-lang = {version = "0.28.0", features = ["init-if-needed"]}
 anchor-spl = {version = "0.28.0"}
-libreplex_metadata = { version='^0.3', features =["cpi", "no-entrypoint"]}
+libreplex_metadata = { version='0.3.4', features =["cpi", "no-entrypoint"]}
 mpl-token-metadata = { version='1.12.0', features=["no-entrypoint"]}
+winnow="=0.4.1"
+toml_datetime="=0.6.1"
+
+[dev-dependencies]
+mocha = "0.1.1"
+assert_matches = "1.5.0"
+solana-program-test = ">1.14"
+solana-sdk = ">1.14"
+solana-program = ">1.14"

@@ -35,7 +35,9 @@ pub struct ConfigOverride {
 #[clap(author, version, about)]
 pub enum Command {
     MigrateLite {
-        flexipay: Pubkey,
+        payer: Pubkey,
+        mint: Pubkey,
+        group: Pubkey
     },
 }
 
@@ -70,7 +72,11 @@ pub fn entry(opts: Opts) -> Result<()> {
     let client = Client::new_with_options(url, Rc::new(payer), CommitmentConfig::processed());
 
     match opts.command {
-        Command::MigrateLite { } => 
+        Command::MigrateLite { 
+            payer,
+            mint,
+            group
+        } => 
             migrate_lite(program_id, client, &payer2)
     }
 }

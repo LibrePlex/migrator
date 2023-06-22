@@ -8,15 +8,11 @@ use anyhow::Result;
 
 use std::rc::Rc;
 
-pub fn migrate_lite(
+pub fn migrate(
     program_id: Pubkey,
     client: Client<Rc<Keypair>>,
     payer: &Keypair,
-    price: Pubkey,
-    atom_index: u8,
-    group_idx: u8,
-    amount: u64,
-    price_type: u8,
+ 
 ) -> Result<()> {
     let program_client = client.program(program_id);
 
@@ -33,10 +29,6 @@ pub fn migrate_lite(
         ],
         &program_id,
     );
-    println!("{:}", atom_pda);
-    
-    println!("flexipay address {:}", flexipay_pda);
-    println!("price address {:}", price);
     
     program_client
         .request()
