@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "programs/*",
+    "programs/libreplex_migrator",
 ]
 
 [profile.release]
