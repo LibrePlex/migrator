@@ -2028,9 +2028,9 @@ dependencies = [
 
 [[package]]
 name = "libreplex_metadata"
-version = "0.3.4"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38165ae9076bb9582d66869dc1a14d44bbba0c2b10ac4cb4fca33f3cf56d2bdc"
+checksum = "0d7a659114aafeaabb9a8c38c6b18dd86b0bd114d216d68fa1e24a6f979a8581"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
@@ -2039,7 +2039,7 @@ dependencies = [
 
 [[package]]
 name = "libreplex_migrator"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",

@@ -12,9 +12,10 @@
     "dev": "next dev",
     "build": "anchor build -p migrator",
     "start": "next start",
-    "libreplex:deploy:localnet": "anchor build -p migrator && anchor deploy -p migrator --provider.cluster http://localhost:8899 --provider.wallet ~/.config/solana/libreplex-deployer.json",
-    "libreplex:deploy:devnet": "anchor build -p migrator && anchor deploy -p migrator --provider.cluster https://api.devnet.solana.com --provider.wallet ~/.config/solana/libreplex-deployer.json",
-    "libreplex:deploy:mainnet": "anchor build -p migrator && anchor deploy -p migrator --provider.cluster  https://api.mainnet-beta.solana.com --provider.wallet ~/.config/solana/libreplex-deployer.json",
+    "migrate": "ts-node src/migrator.ts",
+    "migrator:deploy:localnet": "anchor build -p libreplex_migrator && anchor deploy -p libreplex_migrator --provider.cluster http://localhost:8899 --provider.wallet ~/.config/solana/libreplex-deployer.json",
+    "migrator:deploy:devnet": "anchor build -p libreplex_migrator && anchor deploy -p libreplex_migrator --provider.cluster https://api.devnet.solana.com --provider.wallet ~/.config/solana/libreplex-deployer.json",
+    "migrator:deploy:mainnet": "anchor build -p libreplex_migrator && anchor deploy -p libreplex_migrator --provider.cluster  https://api.mainnet-beta.solana.com --provider.wallet ~/.config/solana/libreplex-deployer.json",
     "lint": "next lint"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "bmp-js": "^0.1.0",
+    "commander": "^11.0.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
     "framer-motion": "^10.12.16",
