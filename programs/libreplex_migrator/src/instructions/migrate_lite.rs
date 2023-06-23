@@ -1,4 +1,6 @@
 
+use std::borrow::Borrow;
+
 use anchor_lang::accounts::signer;
 use anchor_lang::{prelude::*};
 use anchor_spl::token::Mint;
@@ -8,7 +10,6 @@ use libreplex_metadata::program::LibreplexMetadata as MetadataProgram;
 use crate::libreplex_migrator;
 use crate::program::LibreplexMigrator as LibrePlexMigrator;
 use libreplex_metadata::cpi::accounts::CreateMetadata;
-use mpl_token_metadata::state::{Metadata as LegacyMetadata, TokenMetadataAccount};
 
 #[derive(Accounts)]
 pub struct MigrateLite<'info> {
@@ -49,14 +50,18 @@ pub fn handler(
     let system_program = &ctx.accounts.system_program;
     let libreplex_migrator = &ctx.accounts.libreplex_migrator_program;
 
-    let legacy_metadata_obj = LegacyMetadata::from_account_info(
-        &legacy_metadata.to_account_info())?;
+    
+    let a = legacy_metadata.to_account_info();
+    let md_accountinfo = &a.data.borrow_mut();
+    let md_mint = Pubkey::try_from_slice(&md_accountinfo[33..65])?;
 
-    if mint.key() != legacy_metadata_obj.mint.key() {
+    let md_uauth = Pubkey::try_from_slice(&md_accountinfo[1..33])?;
+
+    if mint.key() != md_mint {
         return Err(ErrorCode::ConstraintTokenMint.into());
     }
 
-    if payer.key() != legacy_metadata_obj.update_authority.key() {
+    if payer.key() != md_uauth {
         return Err(ErrorCode::ConstraintMintMintAuthority.into());
     }
 
@@ -65,6 +70,13 @@ pub fn handler(
     let signer_seeds = [
         mint_key.as_ref()
     ];
+    
+
+    let name_length = u32::try_from_slice(&md_accountinfo[65..69])? as usize;
+    let name = String::try_from_slice(&md_accountinfo[65..(65+name_length)])?;
+
+    let symbol_length = u32::try_from_slice(&md_accountinfo[91..95])? as usize;
+    let symbol = String::try_from_slice(&md_accountinfo[95..(95+symbol_length)])?;
     /*
      create libre metadata, replicating what we can from legacy: name, symbol etc
      for asset, we use Asset::Json as this provides backwards compatible data 
@@ -85,9 +97,9 @@ pub fn handler(
             &[&signer_seeds]
         ),
         CreateMetadataInput {
-            name: legacy_metadata_obj.data.name,
-            symbol: legacy_metadata_obj.data.symbol,
-            asset: Asset::Json { url: legacy_metadata_obj.data.uri },
+            name,
+            symbol,
+            asset: Asset::Json { url: "".to_owned()}, //legacy_metadata_obj.data.uri },
             description: None,
             update_authority: payer.key(),
             
