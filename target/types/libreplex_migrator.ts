@@ -1,9 +1,9 @@
 export type LibreplexMigrator = {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "name": "libreplex_migrator",
   "instructions": [
     {
-      "name": "canonical",
+      "name": "migrateLite",
       "accounts": [
         {
           "name": "payer",
@@ -20,6 +20,26 @@ export type LibreplexMigrator = {
           "name": "mint",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "migrateSigner",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata_signer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
         },
         {
           "name": "legacyMetadata",
@@ -47,17 +67,22 @@ export type LibreplexMigrator = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "migrateSignerBump",
+          "type": "u8"
+        }
+      ]
     }
   ]
 };
 
 export const IDL: LibreplexMigrator = {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "name": "libreplex_migrator",
   "instructions": [
     {
-      "name": "canonical",
+      "name": "migrateLite",
       "accounts": [
         {
           "name": "payer",
@@ -74,6 +99,26 @@ export const IDL: LibreplexMigrator = {
           "name": "mint",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "migrateSigner",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata_signer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
         },
         {
           "name": "legacyMetadata",
@@ -101,7 +146,12 @@ export const IDL: LibreplexMigrator = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "migrateSignerBump",
+          "type": "u8"
+        }
+      ]
     }
   ]
 };

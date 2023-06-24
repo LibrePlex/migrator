@@ -21,10 +21,12 @@ pub mod libreplex_migrator {
 
 
     use super::*;
-    pub fn canonical(
-        ctx: Context<MigrateLite>
+    pub fn migrate_lite(
+        ctx: Context<MigrateLite>,
+        migrate_signer_bump: u8
     ) -> Result<()> {
-        instructions::migrate_lite::handler(ctx)
+        instructions::migrate_lite::handler(ctx,
+            migrate_signer_bump)
     }
 
 
