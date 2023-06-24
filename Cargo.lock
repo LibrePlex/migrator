@@ -2028,9 +2028,9 @@ dependencies = [
 
 [[package]]
 name = "libreplex_metadata"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d7a659114aafeaabb9a8c38c6b18dd86b0bd114d216d68fa1e24a6f979a8581"
+checksum = "c4d221f973c26f1298c6d03999b2c39457bf646f10458b4539b00bd1f2c06304"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
